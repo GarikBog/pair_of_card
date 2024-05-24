@@ -13,7 +13,6 @@
 
 int main()
 {
-
     sf::RenderWindow window(sf::VideoMode(800, 800), "Pair of cards");
 
     while (window.isOpen())

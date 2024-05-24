@@ -76,6 +76,49 @@ bool Button::Mouse_on(float mx, float my) {
 	return (mx > x && mx<x + w && my > y && my < y + h);
 }
 
+void Button::Do(float mx, float my) {
+	if (Mouse_on(mx, my)) {
+		ButtonFunction();
+	}
+}
+
+Button::Button(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo) :Object(x, y, w, h, texture_file), ButtonFunction(foo) {
+
+}
+
+
+
+/// TEXT BUTTON
+
+TextButton::TextButton(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo, std::string text, std::string font) : Button(x, y, w, h, texture_file, foo) {
+	Set_font(font);
+	Set_text(text);
+
+	outline_texture.loadFromFile("outline.jpg");
+	outline.setTexture(outline_texture);
+	outline.setTextureRect(sf::IntRect(0,0,w + 10, h + 10));
+	outline.setPosition(x - 5, y - 5);
+
+}
+
+void TextButton::Set_font(std::string font) {
+
+	if (!this->font.loadFromFile(font)) {
+		throw std::exception("Font file is not found");
+	}
+
+	text.setFont(this->font);
+
+}
+
+void TextButton::Set_text(std::string text) {
+	this->text.setString(text);
+
+}
+
+void TextButton::Set_char_size(unsigned int size) {
+	text.setCharacterSize(size);
+}
 
 
 

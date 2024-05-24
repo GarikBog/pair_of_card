@@ -3,6 +3,12 @@
 #define SF_GRAFIC
 #endif
 
+#ifndef FUNCTIONAL
+#include<functional>
+#define FUNCTIONAL
+#endif // !FUNCTIONAL
+
+
 
 class Object
 {
@@ -33,9 +39,27 @@ public:
 
 class Button : public Object {
 private:
-
+	std::function<void()> ButtonFunction;
 public:
-	virtual bool Do();
+	Button(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo);
 	bool Mouse_on(float mx, float my);
+	void Do(float mx, float my);
+}; 
+
+
+
+class TextButton : public Button {
+private:
+	sf::Text text;
+	sf::Font font;
+	sf::Texture outline_texture;
+	sf::Sprite outline;
+public:
+	TextButton(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo, std::string text,std::string font);
+
+	void Set_text(std::string text);
+	void Set_font(std::string font);
+	void Set_char_size(unsigned int size);
+
 };
 
