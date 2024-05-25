@@ -7,7 +7,7 @@
 /// OBJECT
 
 /// other
-Object::Object(float x, float y, int w, int h, std::string texture_file){
+Object::Object(int x, int y, int w, int h, std::string texture_file){
 	Set_pos(x, y);
 	Set_size(w, h);
 	Set_texture(texture_file);
@@ -22,7 +22,7 @@ void Tick(sf::Time tick) {
 
 
 ///Setters
-void Object::Set_pos(float x, float y){
+void Object::Set_pos(int x, int y){
 	this->x = x;
 	this->y = y;
 
@@ -47,16 +47,20 @@ void Object::Set_texture(std::string texture_file){
 
 
 ///Getters
-std::pair<float, float> Object::Get_size() const{
-	return std::pair<float, float>(x, y);
+std::pair<int, int> Object::Get_size() const{
+	return std::pair<int, int>(w, h);
 }
 std::pair<int, int> Object::Get_pos() const{
-	return std::pair<int, int>(w, h);
+	return std::pair<int, int>(x, y);
 
 }
 std::string Object::Get_texture() const{
 	return texture_file;
 }
+sf::Sprite Object::GetSprite() const {
+	return sprite;
+}
+
 
 
 
@@ -69,35 +73,49 @@ std::string Object::Get_texture() const{
 
 /// BUTTON STAFCHIK
 
-bool Button::Mouse_on(float mx, float my) {
-	float x = Get_pos().first, y = Get_pos().second;
+bool Button::Mouse_on(int mx, int my) {
+	int x = Get_pos().first, y = Get_pos().second;
 	int w = Get_size().first, h = Get_size().second;
 
 	return (mx > x && mx<x + w && my > y && my < y + h);
 }
 
-void Button::Do(float mx, float my) {
+void Button::Do(int mx, int my) {
 	if (Mouse_on(mx, my)) {
 		ButtonFunction();
 	}
 }
 
-Button::Button(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo) :Object(x, y, w, h, texture_file), ButtonFunction(foo) {
-
+Button::Button(int x, int y, int w, int h, std::string texture_file, std::function<void()> foo) :Object(x, y, w, h, texture_file), ButtonFunction(foo) {
+		
 }
 
 
 
 /// TEXT BUTTON
 
-TextButton::TextButton(float x, float y, int w, int h, std::string texture_file, std::function<void()> foo, std::string text, std::string font) : Button(x, y, w, h, texture_file, foo) {
+TextButton::TextButton(int x, int y, int w, std::string texture_file, std::function<void()> foo, std::string text, std::string font) : Button(x, y, w, 0.4*w, texture_file, foo) {
 	Set_font(font);
 	Set_text(text);
 
-	outline_texture.loadFromFile("outline.jpg");
+	outline_texture.loadFromFile("textures/outline.jpg");
 	outline.setTexture(outline_texture);
-	outline.setTextureRect(sf::IntRect(0,0,w + 10, h + 10));
-	outline.setPosition(x - 5, y - 5);
+	outline.setTextureRect(sf::IntRect(0,0,w + 14, 0.4*w + 14));
+	outline.setPosition(x - 7, y - 7);
+	this->text.setCharacterSize(0.3*w);
+	this->text.setPosition(x+ 0.25*w, y);
+
+	this->text.setFillColor(sf::Color::Green);
+
+
+}
+
+void TextButton::Draw(sf::RenderWindow& window,sf::Vector2i mouse_pos) {
+	if (Mouse_on(mouse_pos.x, mouse_pos.y)) {
+		window.draw(outline);
+	}
+	Object::Draw(window);
+	window.draw(text);
 
 }
 
