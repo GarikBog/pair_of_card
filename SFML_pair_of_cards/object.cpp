@@ -90,7 +90,95 @@ Button::Button(int x, int y, int w, int h, std::string texture_file, std::functi
 		
 }
 
-
+int Size_of_text(std::string str,int w) {
+	double ans = 0;
+	for (char c : str) {
+		switch (c)
+		{
+		case('t'):
+			ans += 0.28;
+			break;
+		case('e'):
+			ans += 0.51;
+		case('q'):
+			ans += 0.49;
+			break;
+		case('w'):
+			ans += 0.74;
+			break;
+		case('r'):
+			ans += 0.31;
+			break;
+		case('y'):
+			ans += 0.76;
+			break;
+		case('u'):
+			ans += 0.45;
+			break;
+		case('i'):
+			ans += 0.21;
+			break;
+		case('o'):
+			ans += 0.58;
+			break;
+		case('p'):
+			ans += 0.53;
+			break;
+		case('a'):
+			ans += 0.54;
+			break;
+		case('s'):
+			ans += 0.5;
+			break;
+		case('d'):
+			ans += 0.5;
+			break;
+		case('f'):
+			ans += 0.28;
+			break;
+		case('g'):
+			ans += 0.53;
+			break;
+		case('h'):
+			ans += 0.5;
+			break;
+		case('j'):
+			ans += 0.28;
+			break;
+		case('k'):
+			ans += 0.52;
+			break;
+		case('l'):
+			ans += 0.16;
+			break;
+		case('z'):
+			ans += 0.51;
+			break;
+		case('x'):
+			ans += 0.52;
+			break;
+		case('c'):
+			ans += 0.49;
+			break;
+		case('v'):
+			ans += 0.52;
+			break;
+		case('b'):
+			ans += 0.54;
+			break;
+		case('n'):
+			ans += 0.34;
+			break;
+		case('m'):
+			ans += 0.78;
+			break;
+		default:
+			ans += 0.5;
+			break;
+		}
+	}
+	return ((ans * w)+0.5);
+}
 
 /// TEXT BUTTON
 
@@ -102,8 +190,9 @@ TextButton::TextButton(int x, int y, int w, std::string texture_file, std::funct
 	outline.setTexture(outline_texture);
 	outline.setTextureRect(sf::IntRect(0,0,w + 14, 0.4*w + 14));
 	outline.setPosition(x - 7, y - 7);
+	int size = Size_of_text(text, 0.3*w);
 	this->text.setCharacterSize(0.3*w);
-	this->text.setPosition(x+ 0.25*w, y);
+	this->text.setPosition(x+w/2 - size/2, y);
 
 	this->text.setFillColor(sf::Color::Green);
 

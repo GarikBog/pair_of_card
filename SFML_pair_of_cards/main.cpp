@@ -8,17 +8,18 @@
 #define OBJECT
 #endif
 
-#include<iostream>
 
 
 sf::Sprite Bg;
 sf::Texture Bg_texture;
 
-sf::Text test;
 
 auto Do_smf = []() {
-
 };
+
+
+
+
 
 
 int main()
@@ -32,7 +33,7 @@ try {
     Bg.setPosition(0, 0);
     Bg.setTextureRect(sf::IntRect(0, 0, 800, 800));
 
-    TextButton but1(50,50,500,"textures/test_texture.jpg",Do_smf,"text","fonts/ARIAL.TTF");
+    TextButton but1(50,50,700,"textures/test_texture.jpg",Do_smf,"p","fonts/ARIAL.TTF");
 
     while (window.isOpen())
     {
@@ -52,7 +53,6 @@ try {
 
         }
         catch(std::exception ex){
-            std::cout << ex.what() << '\n';
         }
     return 0;
 }
