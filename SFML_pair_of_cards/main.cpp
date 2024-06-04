@@ -9,31 +9,30 @@
 #endif
 
 
-
-sf::Sprite Bg;
-sf::Texture Bg_texture;
-
+bool game_status = 0;
 
 auto Do_smf = []() {
 };
 
+auto DrawGame = [](sf::RenderWindow& window) {
 
+    return 0;
+};
 
+auto Game_start = [](sf::RenderWindow& window) {
 
+};
 
+auto Exit = [](sf::RenderWindow& window) {
 
-int main()
-{
-try {
-    sf::RenderWindow window(sf::VideoMode(800, 800), "Pair of cards");
+    window.close();
+};
 
-    Bg_texture.loadFromFile("bg.jpg");
-
-    Bg.setTexture(Bg_texture);
-    Bg.setPosition(0, 0);
-    Bg.setTextureRect(sf::IntRect(0, 0, 800, 800));
-
-    TextButton but1(50,50,700,"textures/test_texture.jpg",Do_smf,"p","fonts/ARIAL.TTF");
+void DrawMainMenu(sf::RenderWindow& window) {
+    
+    Object bg(0, 0, 800, 800, "textures/bg.jpg");
+    TextButton start(150, 100, 500, "textures/test_texture.jpg",Game_start, "start", "fonts/ARIAL.TTF");
+    TextButton exit(150, 400, 500, "textures/test_texture.jpg",Exit, "exit", "fonts/ARIAL.TTF");
 
     while (window.isOpen())
     {
@@ -42,17 +41,33 @@ try {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::MouseButtonPressed) {
+                int mx = sf::Mouse::getPosition(window).x, my = sf::Mouse::getPosition(window).y;
+                start.Do(mx, my,window);
+                exit.Do(mx, my,window);
+            }
         }
 
         window.clear();
-        window.draw(Bg);
-        but1.Draw(window, sf::Mouse::getPosition(window));
+        bg.Draw(window);
+        start.Draw(window, sf::Mouse::getPosition(window));
+        exit.Draw(window, sf::Mouse::getPosition(window));
+
         window.display();
     }
 
+}
 
-        }
-        catch(std::exception ex){
-        }
+
+
+int main()
+{
+    try {
+        sf::RenderWindow window(sf::VideoMode(800, 800), "Pair of cards");
+
+        DrawMainMenu(window);
+    }
+    catch(std::exception ex){
+    }
     return 0;
 }

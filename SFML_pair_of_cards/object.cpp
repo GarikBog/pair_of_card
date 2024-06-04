@@ -16,8 +16,6 @@ Object::Object(int x, int y, int w, int h, std::string texture_file){
 void Object::Draw(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
-void Tick(sf::Time tick) {
-}
 
 
 
@@ -80,15 +78,14 @@ bool Button::Mouse_on(int mx, int my) {
 	return (mx > x && mx<x + w && my > y && my < y + h);
 }
 
-void Button::Do(int mx, int my) {
+void Button::Do(int mx, int my,sf::RenderWindow& window) {
 	if (Mouse_on(mx, my)) {
-		ButtonFunction();
+		ButtonFunction(window);
 	}
 }
 
-Button::Button(int x, int y, int w, int h, std::string texture_file, std::function<void()> foo) :Object(x, y, w, h, texture_file), ButtonFunction(foo) {
-		
-}
+Button::Button(int x, int y, int w, int h, std::string texture_file, std::function<void(sf::RenderWindow& window)> function):Object(x, y, w, h, texture_file),
+	ButtonFunction(function) {}
 
 int Size_of_text(std::string str,int w) {
 	double ans = 0;
@@ -182,7 +179,7 @@ int Size_of_text(std::string str,int w) {
 
 /// TEXT BUTTON
 
-TextButton::TextButton(int x, int y, int w, std::string texture_file, std::function<void()> foo, std::string text, std::string font) : Button(x, y, w, 0.4*w, texture_file, foo) {
+TextButton::TextButton(int x, int y, int w, std::string texture_file, std::function<void(sf::RenderWindow& window)> function, std::string text, std::string font) : Button(x, y, w, 0.4 * w, texture_file,function) {
 	Set_font(font);
 	Set_text(text);
 
@@ -190,9 +187,10 @@ TextButton::TextButton(int x, int y, int w, std::string texture_file, std::funct
 	outline.setTexture(outline_texture);
 	outline.setTextureRect(sf::IntRect(0,0,w + 14, 0.4*w + 14));
 	outline.setPosition(x - 7, y - 7);
-	int size = Size_of_text(text, 0.3*w);
-	this->text.setCharacterSize(0.3*w);
-	this->text.setPosition(x+w/2 - size/2, y);
+	int height = 0.3 * w;
+	int size = Size_of_text(text, height);
+	this->text.setCharacterSize(height);
+	this->text.setPosition(x+w/2 - size/2, y );
 
 	this->text.setFillColor(sf::Color::Green);
 

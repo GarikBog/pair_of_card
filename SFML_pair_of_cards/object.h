@@ -39,11 +39,11 @@ public:
 
 class Button : public Object {
 private:
-	std::function<void()> ButtonFunction;
+	std::function<void(sf::RenderWindow& window)> ButtonFunction;
 public:
-	Button(int x, int y, int w, int h, std::string texture_file, std::function<void()> foo);
+	Button(int x, int y, int w, int h, std::string texture_file, std::function<void(sf::RenderWindow& window)> function);
 	bool Mouse_on(int mx, int my);
-	void Do(int mx, int my);
+	void Do(int mx, int my,sf::RenderWindow& window);
 }; 
 
 
@@ -55,7 +55,7 @@ private:
 	sf::Texture outline_texture;
 	sf::Sprite outline;
 public:
-	TextButton(int x, int y, int w,std::string texture_file, std::function<void()> foo, std::string text,std::string font);
+	TextButton(int x, int y, int w,std::string texture_file, std::function<void(sf::RenderWindow& window)> function , std::string text, std::string font);
 	void Draw(sf::RenderWindow& window, sf::Vector2i mouse_pos);
 
 
